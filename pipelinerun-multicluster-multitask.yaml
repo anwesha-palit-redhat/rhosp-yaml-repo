@@ -1,0 +1,54 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: ui-multitask-sample-
+spec:
+  managedBy: kueue.x-k8s.io/multikueue
+  pipelineSpec:
+    tasks:
+      - name: say-hello-1
+        taskSpec:
+          steps:
+            - name: echo
+              image: alpine
+              script: |
+                #!/bin/sh
+                echo "Hello, World 1 !"
+                sleep 30
+      - name: say-hello-2
+        taskSpec:
+          steps:
+            - name: echo
+              image: alpine
+              script: |
+                #!/bin/sh
+                echo "Hello, World 2!"
+                sleep 20
+      - name: say-goodbye
+        runAfter:
+          - say-hello-2
+        taskSpec:
+          steps:
+            - name: echo
+              image: alpine
+              script: |
+                #!/bin/sh
+                echo "Goodbye, World!"
+    finally:
+      - name: final-echo-1
+        taskSpec:
+          steps:
+            - name: final-step-1
+              image: alpine:latest
+              script: |
+                #!/bin/sh
+                echo "Finally Task 1 - cleanup"
+
+      - name: final-echo-2
+        taskSpec:
+          steps:
+            - name: final-step-2
+              image: alpine:latest
+              script: |
+                #!/bin/sh
+                echo "Finally Task 2 - notify"

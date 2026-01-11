@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: inline-pipeline-extra-wide-space-table
+spec:
+  tasks:
+    - name: print-extra-wide-table
+      taskSpec:
+        steps:
+          - name: table-logs
+            image: registry.access.redhat.com/ubi9/ubi-minimal
+            script: |
+              #!/bin/sh
+              echo "PIPELINE EXECUTION DETAILED SUMMARY (WHITESPACE ALIGNED)"
+              echo ""
+              echo "STEP NAME                  COMPONENT            STAGE           STATUS      DURATION    RETRIES    NAMESPACE        CLUSTER           NODE              START TIME            MESSAGE"
+              echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+              echo "git-clone-repository       source-control        fetch           SUCCESS     5s          0          ci-pipelines     spoke-cluster-01  worker-node-a1     2026-01-11T10:01:12   Repository cloned successfully from main branch"
+              echo "build-container-image      image-build           build           SUCCESS     1m32s       1          ci-pipelines     spoke-cluster-01  worker-node-b3     2026-01-11T10:01:20   Container image built and pushed to internal registry"
+              echo "run-unit-and-integration   test-suite            verify          FAILED      45s         2          ci-pipelines     spoke-cluster-01  worker-node-c2     2026-01-11T10:03:05   Test failure detected in payment-service module"
+              echo "static-code-analysis       code-quality          analyze         SUCCESS     28s         0          ci-pipelines     spoke-cluster-01  worker-node-d4     2026-01-11T10:03:55   Static analysis completed with no critical issues"
+              echo "deploy-to-development      deployment            deploy           RUNNING     -           0          dev-namespace    hub-cluster       worker-node-e7     2026-01-11T10:04:30   Waiting for deployment rollout to complete"
+              echo ""
+              echo "Note: 11 columns aligned using fixed spaces (no tabs)"
+

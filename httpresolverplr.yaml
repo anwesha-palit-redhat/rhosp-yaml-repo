@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: multi-cluster-http-demo-
+spec:
+  managedBy: kueue.x-k8s.io/multikueue
+  pipelineRef:
+    resolver: http
+    params:
+      - name: url
+        value: https://raw.githubusercontent.com/savitaashture/test-pac/refs/heads/main/test-pipeline.yaml
