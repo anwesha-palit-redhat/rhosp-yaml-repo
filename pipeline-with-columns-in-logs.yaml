@@ -22,4 +22,3 @@ spec:
               echo "deploy-to-development      deployment            deploy           RUNNING     -           0          dev-namespace    hub-cluster       worker-node-e7     2026-01-11T10:04:30   Waiting for deployment rollout to complete"
               echo ""
               echo "Note: 11 columns aligned using fixed spaces (no tabs)"
-

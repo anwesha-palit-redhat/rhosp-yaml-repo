@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   generateName: ui-multitask-sample-
+  namespace: apalit
 spec:
   managedBy: kueue.x-k8s.io/multikueue
   pipelineSpec:

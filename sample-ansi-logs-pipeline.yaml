@@ -1,0 +1,76 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: ansi-logs-demo
+spec:
+  tasks:
+    - name: simulate-real-logs
+      taskSpec:
+        steps:
+          - name: colorful-build-logs
+            image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+            script: |
+              #!/bin/bash
+              echo -e "\033[1;34m========================================\033[0m"
+              echo -e "\033[1;34m  Starting Build Process\033[0m"
+              echo -e "\033[1;34m========================================\033[0m"
+              echo ""
+              
+              echo -e "\033[36m[INFO]\033[0m Initializing build environment..."
+              sleep 0.5
+              echo -e "\033[36m[INFO]\033[0m Checking dependencies..."
+              sleep 0.3
+              
+              echo -e "\033[32m[SUCCESS]\033[0m All dependencies resolved"
+              echo ""
+              
+              echo -e "\033[33m[WARN]\033[0m Package 'lodash' is outdated (4.17.20 -> 4.17.21)"
+              echo -e "\033[33m[WARN]\033[0m Consider updating for security fixes"
+              echo ""
+              
+              echo -e "\033[36m[INFO]\033[0m Compiling TypeScript..."
+              echo -e "  \033[90m├──\033[0m src/index.ts"
+              echo -e "  \033[90m├──\033[0m src/components/App.tsx"
+              echo -e "  \033[90m├──\033[0m src/utils/helpers.ts"
+              echo -e "  \033[90m└──\033[0m src/types/index.d.ts"
+              sleep 0.5
+              
+              echo -e "\033[32m✓\033[0m Compiled \033[1m4 files\033[0m successfully"
+              echo ""
+              
+              echo -e "\033[36m[INFO]\033[0m Running tests..."
+              echo -e "  \033[32m✓\033[0m test/unit/helpers.test.ts \033[90m(23ms)\033[0m"
+              echo -e "  \033[32m✓\033[0m test/unit/App.test.tsx \033[90m(156ms)\033[0m"
+              echo -e "  \033[31m✗\033[0m test/unit/failing.test.ts \033[90m(12ms)\033[0m"
+              echo -e "    \033[31mExpected: 'hello'\033[0m"
+              echo -e "    \033[31mReceived: 'world'\033[0m"
+              echo ""
+              
+              echo -e "\033[1;35m[DEBUG]\033[0m Stack trace:"
+              echo -e "\033[90m    at Object.<anonymous> (test/unit/failing.test.ts:15:5)\033[0m"
+              echo -e "\033[90m    at Promise.then.completed (node_modules/jest/build/index.js:234:12)\033[0m"
+              echo ""
+              
+              echo -e "\033[33m[WARN]\033[0m \033[4mTest coverage below threshold\033[0m"
+              echo -e "  Statements: \033[31m65%\033[0m (required: 80%)"
+              echo -e "  Branches:   \033[33m72%\033[0m (required: 80%)"
+              echo -e "  Functions:  \033[32m85%\033[0m (required: 80%)"
+              echo ""
+              
+              echo -e "\033[36m[INFO]\033[0m Building production bundle..."
+              echo -e "  \033[90mwebpack 5.88.0 compiled with\033[0m \033[33m2 warnings\033[0m \033[90min 3421ms\033[0m"
+              echo ""
+              
+              echo -e "\033[1;32m========================================\033[0m"
+              echo -e "\033[1;32m  Build Complete\033[0m"
+              echo -e "\033[1;32m========================================\033[0m"
+              echo -e "\033[36mBundle size:\033[0m \033[1m245.6 KB\033[0m \033[90m(gzipped: 78.2 KB)\033[0m"
+              echo -e "\033[36mBuild time:\033[0m  \033[1m4.2s\033[0m"
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: ansi-logs-demo-run-
+spec:
+  pipelineRef:
+    name: ansi-logs-demo

@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: dummy-plr-
+  namespace: apalit
+spec:
+  pipelineSpec:
+    description: "Dummy PipelineRun for UI / controller testing"
+
