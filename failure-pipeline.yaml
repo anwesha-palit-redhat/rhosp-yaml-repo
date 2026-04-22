@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: failing-pipeline
+spec:
+  params:
+    - name: IMAGE
+      type: string
+      default: "nonexistent-image:latest"
+
+  tasks:
+    # Task 1: This will succeed
+    - name: echo-success
+      taskSpec:
+        steps:
+          - name: echo
+            image: registry.access.redhat.com/ubi8/ubi
+            script: |
+              #!/bin/sh
+              echo "This step will succeed"
+
+    # Task 2: This will fail due to bad command
+    - name: fail-command
+      runAfter:
+        - echo-success
+      taskSpec:
+        steps:
+          - name: bad-command
+            image: registry.access.redhat.com/ubi8/ubi
+            script: |
+              #!/bin/sh
+              echo "About to run a non-existent command"
+              nonexistent_command_here
+
+    # Task 3: This will fail due to invalid image
+    - name: fail-image
+      runAfter:
+        - echo-success
+      taskSpec:
+        steps:
+          - name: pull-invalid-image
+            image: "$(params.IMAGE)"
+            script: |
+              #!/bin/sh
+              echo "This should never run because image pull will fail"
+
+    # Task 4: This depends on a failed task and will be skipped
+    - name: skipped-task
+      runAfter:
+        - fail-command
+      taskSpec:
+        steps:
+          - name: echo
+            image: registry.access.redhat.com/ubi8/ubi
+            script: |
+              #!/bin/sh
+              echo "You should not see this"
