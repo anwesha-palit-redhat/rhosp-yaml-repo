@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: test-pipeline-multiline
+spec:
+  tasks:
+    - name: ansi-multiline-span-test
+      taskSpec:
+        steps:
+          - name: generate
+            image: registry.access.redhat.com/ubi9/ubi
+            script: |
+              #!/usr/bin/env bash
+
+              echo "===== SCROLL TEST: Multi-line span across viewport boundary ====="
+              echo ""
+
+              echo -e "\033[31m--- RED BLOCK START (line 1 of 200) ---"
+              for i in $(seq 2 199); do
+                echo "  Red block line $i (should be red if span works)"
+              done
+              echo -e "--- RED BLOCK END (line 200 of 200) ---\033[0m"
+
+              echo ""
+              echo "This line should be default color after the red block."
+              echo ""
+
+              echo -e "\033[1;32m--- GREEN BOLD BLOCK START (line 1 of 200) ---"
+              for i in $(seq 2 199); do
+                echo "  Green bold block line $i (should be green+bold if span works)"
+              done
+              echo -e "--- GREEN BOLD BLOCK END (line 200 of 200) ---\033[0m"
+
+              echo ""
+              echo "This line should be default color after the green block."
+              echo ""
+              echo "===== DONE ====="
