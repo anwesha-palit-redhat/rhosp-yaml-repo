@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: pipeline-in-pipeline
+  namespace: arvind
+spec:
+  tasks:
+    - name: echo-task-1
+      params:
+        - name: mystr
+          value: pipeline-in-pipeline-task-1
+      taskRef:
+        kind: Task
+        name: echo-task
+
+    - name: echo-task-2
+      params:
+        - name: mystr
+          value: pipeline-in-pipeline-task-2
+      taskRef:
+        kind: Task
+        name: echo-task
+
+    - name: nested-pipeline
+      pipelineSpec:
+        tasks:
+          - name: echo-task-1
+            params:
+              - name: mystr
+                value: nested-pipeline-task-1
+            taskRef:
+              kind: Task
+              name: echo-task
+  finally:
+    - name: final-echo-1
+      taskSpec:
+        steps:
+          - name: final-step-1
+            image: alpine:latest
+            script: |
+              #!/bin/sh
+              echo "Finally Task 1 - cleanup"
+
+    - name: nested-finally-pipeline
+      pipelineSpec:
+        tasks:
+         - name: echo-finally
+           params:
+            - name: mystr
+              value: nested-finally-pl
+           taskRef:
+            kind: Task
+            name: echo-task

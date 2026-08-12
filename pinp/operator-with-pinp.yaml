@@ -1,0 +1,1638 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+  name: openshift-operators
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: manualapprovalgates.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: ManualApprovalGate
+    listKind: ManualApprovalGateList
+    plural: manualapprovalgates
+    shortNames:
+      - mag
+    singular: manualapprovalgate
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the ManualApprovalGate API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: openshiftpipelinesascodes.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: OpenShiftPipelinesAsCode
+    listKind: OpenShiftPipelinesAsCodeList
+    plural: openshiftpipelinesascodes
+    shortNames:
+      - opac
+      - pac
+    singular: openshiftpipelinesascode
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the OpenShiftPipelinesAsCode API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: syncerservices.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: SyncerService
+    listKind: SyncerServiceList
+    plural: syncerservices
+    singular: syncerservice
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the SyncerService API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonaddons.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonAddon
+    listKind: TektonAddonList
+    plural: tektonaddons
+    singular: tektonaddon
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonaddons API. Supported on OpenShift only.
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonchains.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonChain
+    listKind: TektonChainList
+    plural: tektonchains
+    singular: tektonchain
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the TektonChains API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonconfigs.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonConfig
+    listKind: TektonConfigList
+    plural: tektonconfigs
+    singular: tektonconfig
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonconfigs API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonhubs.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonHub
+    listKind: TektonHubList
+    plural: tektonhubs
+    singular: tektonhub
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+        - jsonPath: .status.apiUrl
+          name: ApiUrl
+          type: string
+        - jsonPath: .status.uiUrl
+          name: UiUrl
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonhubs API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektoninstallersets.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonInstallerSet
+    listKind: TektonInstallerSetList
+    plural: tektoninstallersets
+    singular: tektoninstallerset
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektoninstallerset API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonmulticlusterproxyaaes.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonMulticlusterProxyAAE
+    listKind: TektonMulticlusterProxyAAEList
+    plural: tektonmulticlusterproxyaaes
+    singular: tektonmulticlusterproxyaae
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: |
+            TektonMulticlusterProxyAAE configures the Proxy AAE (Aggregated API Extension) from
+            https://github.com/openshift-pipelines/multicluster-proxy-aae. It provides a unified
+            Kubernetes API for accessing Tekton resources (TaskRuns, Pods, logs) across multiple
+            worker clusters managed by MultiKueue.
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonpipelines.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonPipeline
+    listKind: TektonPipelineList
+    plural: tektonpipelines
+    singular: tektonpipeline
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonpipelines API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonpruners.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonPruner
+    listKind: TektonPrunerList
+    plural: tektonpruners
+    singular: tektonpruner
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonpruners API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonresults.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonResult
+    listKind: TektonResultList
+    plural: tektonresults
+    singular: tektonresult
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the TektonResults API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektonschedulers.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonScheduler
+    listKind: TektonSchedulerList
+    plural: tektonschedulers
+    singular: tektonscheduler
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektonschedulers API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tektontriggers.operator.tekton.dev
+spec:
+  group: operator.tekton.dev
+  names:
+    kind: TektonTrigger
+    listKind: TektonTriggerList
+    plural: tektontriggers
+    singular: tektontrigger
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+    - additionalPrinterColumns:
+        - jsonPath: .status.version
+          name: Version
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].status
+          name: Ready
+          type: string
+        - jsonPath: .status.conditions[?(@.type=="Ready")].message
+          name: Reason
+          type: string
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: Schema for the tektontriggers API
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: openshift-pipelines-operator-read
+  namespace: openshift-operators
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+  name: tekton-operator-info
+  namespace: openshift-operators
+rules:
+  - apiGroups:
+      - ""
+    resourceNames:
+      - tekton-operator-info
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - describe
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-config-read-role
+rules:
+  - apiGroups:
+      - operator.tekton.dev
+    resources:
+      - tektonconfigs
+    verbs:
+      - get
+      - watch
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-multicluster-proxy-aae-role
+rules:
+  - apiGroups:
+      - kueue.x-k8s.io
+    resources:
+      - workloads
+      - multikueueclusters
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-operator
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - services
+      - endpoints
+      - persistentvolumeclaims
+      - events
+      - configmaps
+      - secrets
+      - pods/log
+      - limitranges
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - extensions
+      - apps
+    resources:
+      - ingresses
+      - ingresses/status
+    verbs:
+      - delete
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+      - deployments/finalizers
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
+    verbs:
+      - get
+      - create
+      - delete
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterroles
+      - roles
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+      - bind
+      - escalate
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+      - impersonate
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterrolebindings
+      - rolebindings
+    verbs:
+      - get
+      - create
+      - update
+      - delete
+      - list
+      - watch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+      - customresourcedefinitions/status
+    verbs:
+      - get
+      - create
+      - update
+      - delete
+      - list
+      - patch
+      - watch
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+      - validatingwebhookconfigurations
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - build.knative.dev
+    resources:
+      - builds
+      - buildtemplates
+      - clusterbuildtemplates
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - deployments/finalizers
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - operator.tekton.dev
+    resources:
+      - "*"
+      - tektonaddons
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - tekton.dev
+      - triggers.tekton.dev
+      - operator.tekton.dev
+      - pipelinesascode.tekton.dev
+    resources:
+      - "*"
+    verbs:
+      - add
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - dashboard.tekton.dev
+    resources:
+      - "*"
+      - tektonaddons
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - security.openshift.io
+    resources:
+      - securitycontextconstraints
+    verbs:
+      - use
+      - get
+      - list
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - events.k8s.io
+    resources:
+      - events
+    verbs:
+      - create
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes/custom-host
+    verbs:
+      - create
+      - update
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - console.openshift.io
+    resources:
+      - consoleyamlsamples
+      - consoleclidownloads
+      - consolequickstarts
+      - consolelinks
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - delete
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - delete
+      - deletecollection
+      - create
+      - patch
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - resolution.tekton.dev
+    resources:
+      - resolutionrequests
+      - resolutionrequests/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+  - apiGroups:
+      - console.openshift.io
+    resources:
+      - consoleplugins
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+  - apiGroups:
+      - config.openshift.io
+    resources:
+      - apiservers
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-result-read-role
+rules:
+  - apiGroups:
+      - operator.tekton.dev
+    resources:
+      - tektonresults
+    verbs:
+      - get
+      - watch
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tekton-scheduler-role
+rules:
+  - apiGroups:
+      - kueue.x-k8s.io
+    resources:
+      - resourceflavors
+      - workloads
+      - workloads/finalizers
+      - workloads/status
+      - workloadpriorityclasses
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - scheduling.k8s.io
+    resources:
+      - priorityclasses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates
+      - issuers
+    verbs:
+      - get
+      - create
+      - update
+      - list
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: openshift-pipelines-operator-prometheus-k8s-read-binding
+  namespace: openshift-operators
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: openshift-pipelines-operator-read
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s
+    namespace: openshift-monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+  name: tekton-operator-info
+  namespace: openshift-operators
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tekton-operator-info
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:authenticated
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-config-read-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-config-read-role
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:authenticated
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-multicluster-proxy-aae-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-multicluster-proxy-aae-role
+subjects:
+  - kind: ServiceAccount
+    name: tekton-operator
+    namespace: tekton-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-operator
+subjects:
+  - kind: ServiceAccount
+    name: openshift-pipelines-operator
+    namespace: openshift-operators
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-result-read-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-result-read-role
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:authenticated
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tekton-scheduler-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tekton-scheduler-role
+subjects:
+  - kind: ServiceAccount
+    name: openshift-pipelines-operator
+    namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # Common configuration for all Knative codebase
+    zap-logger-config: |
+      {
+        "level": "info",
+        "development": false,
+        "outputPaths": ["stdout"],
+        "errorOutputPaths": ["stderr"],
+        "encoding": "json",
+        "encoderConfig": {
+          "timeKey": "ts",
+          "levelKey": "level",
+          "nameKey": "logger",
+          "callerKey": "caller",
+          "messageKey": "msg",
+          "stacktraceKey": "stacktrace",
+          "lineEnding": "",
+          "levelEncoder": "",
+          "timeEncoder": "iso8601",
+          "durationEncoder": "",
+          "callerEncoder": ""
+        }
+      }
+  loglevel.tekton-operator-cluster-operations: info
+  loglevel.tekton-operator-lifecycle: info
+  loglevel.tekton-operator-webhook: info
+  zap-logger-config: |
+    {
+      "level": "info",
+      "development": false,
+      "sampling": {
+        "initial": 100,
+        "thereafter": 100
+      },
+      "outputPaths": ["stdout"],
+      "errorOutputPaths": ["stderr"],
+      "encoding": "json",
+      "encoderConfig": {
+        "timeKey": "timestamp",
+        "levelKey": "level",
+        "nameKey": "logger",
+        "callerKey": "caller",
+        "messageKey": "msg",
+        "stacktraceKey": "stacktrace",
+        "lineEnding": "",
+        "levelEncoder": "",
+        "timeEncoder": "iso8601",
+        "durationEncoder": "",
+        "callerEncoder": ""
+      }
+    }
+kind: ConfigMap
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+  name: config-logging
+  namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  AUTOINSTALL_COMPONENTS: "true"
+  DEFAULT_TARGET_NAMESPACE: openshift-pipelines
+kind: ConfigMap
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+  name: tekton-config-defaults
+  namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+    # metrics.backend-destination field specifies the system metrics destination.
+    # It supports either prometheus (the default) or stackdriver.
+    # Note: Using Stackdriver will incur additional charges.
+    metrics.backend-destination: prometheus
+    # metrics.stackdriver-project-id field specifies the Stackdriver project ID. This
+    # field is optional. When running on GCE, application default credentials will be
+    # used and metrics will be sent to the cluster's project if this field is
+    # not provided.
+    metrics.stackdriver-project-id: "<your stackdriver project id>"
+    # metrics.allow-stackdriver-custom-metrics indicates whether it is allowed
+    # to send metrics to Stackdriver using "global" resource type and custom
+    # metric type. Setting this flag to "true" could cause extra Stackdriver
+    # charge.  If metrics.backend-destination is not Stackdriver, this is
+    # ignored.
+    metrics.allow-stackdriver-custom-metrics: "false"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+  name: tekton-config-observability
+  namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+    # lease-duration is how long non-leaders will wait to try to acquire the
+    # lock; 15 seconds is the value used by core kubernetes controllers.
+    lease-duration: "60s"
+    # renew-deadline is how long a leader will try to renew the lease before
+    # giving up; 10 seconds is the value used by core kubernetes controllers.
+    renew-deadline: "40s"
+    # retry-period is how long the leader election client waits between tries of
+    # actions; 2 seconds is the value used by core kubernetes controllers.
+    retry-period: "10s"
+    # buckets is the number of buckets used to partition key space of each
+    # Reconciler. If this number is M and the replica number of the controller
+    # is N, the N replicas will compete for the M buckets. The owner of a
+    # bucket will take care of the reconciling for the keys partitioned into
+    # that bucket.
+    buckets: "1"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+    operator.tekton.dev/release: devel
+  name: tekton-operator-controller-config-leader-election
+  namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  version: devel
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+  name: tekton-operator-info
+  namespace: openshift-operators
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+    # lease-duration is how long non-leaders will wait to try to acquire the
+    # lock; 15 seconds is the value used by core kubernetes controllers.
+    lease-duration: "60s"
+    # renew-deadline is how long a leader will try to renew the lease before
+    # giving up; 10 seconds is the value used by core kubernetes controllers.
+    renew-deadline: "40s"
+    # retry-period is how long the leader election client waits between tries of
+    # actions; 2 seconds is the value used by core kubernetes controllers.
+    retry-period: "10s"
+    # buckets is the number of buckets used to partition key space of each
+    # Reconciler. If this number is M and the replica number of the controller
+    # is N, the N replicas will compete for the M buckets. The owner of a
+    # bucket will take care of the reconciling for the keys partitioned into
+    # that bucket.
+    buckets: "1"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: default
+    operator.tekton.dev/release: devel
+  name: tekton-operator-webhook-config-leader-election
+  namespace: openshift-operators
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    app: tekton-operator
+    name: tekton-operator-webhook
+  name: tekton-operator-webhook-certs
+  namespace: openshift-operators
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: openshift-pipelines-operator
+    version: devel
+  name: tekton-operator
+  namespace: openshift-operators
+spec:
+  ports:
+    - name: http-metrics
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
+  selector:
+    app: openshift-pipelines-operator
+    name: openshift-pipelines-operator
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: tekton-operator
+    name: tekton-operator-webhook
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tekton-operator-webhook
+  namespace: openshift-operators
+spec:
+  ports:
+    - name: https-webhook
+      port: 443
+      targetPort: 8443
+  selector:
+    app: tekton-operator
+    name: tekton-operator-webhook
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openshift-pipelines-operator
+      name: openshift-pipelines-operator
+  template:
+    metadata:
+      labels:
+        app: openshift-pipelines-operator
+        name: openshift-pipelines-operator
+    spec:
+      containers:
+        - args:
+            - -controllers
+            - tektonconfig,tektonpipeline,tektontrigger,tektonhub,tektonchain,tektonaddon,tektonresult,openshiftpipelinesascode,manualapprovalgate,tektonpruner,tektonscheduler,tektonmulticlusterproxyaae,syncerservice
+            - -unique-process-name
+            - tekton-operator-lifecycle
+          env:
+            - name: KUBERNETES_MIN_VERSION
+              value: v1.0.0
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: PLATFORM
+              value: openshift
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: redhat-openshift-pipelines-operator
+            - name: IMAGE_PIPELINES_PROXY
+              value: ghcr.io/vdemeester/tektoncd/operator/proxy-webhook@sha256:d35d4f8735e0c817839cb1f4b6da5ae5020a192d10d3b4ece8e6db24124ea8d7
+            - name: IMAGE_JOB_PRUNER_TKN
+              value: ghcr.io/tektoncd/plumbing/tkn@sha256:233de6c8b8583a34c2379fa98d42dba739146c9336e8d41b66030484357481ed
+            - name: METRICS_DOMAIN
+              value: tekton.dev/operator
+            - name: VERSION
+              value: devel
+            - name: AUTOINSTALL_COMPONENTS
+              valueFrom:
+                configMapKeyRef:
+                  key: AUTOINSTALL_COMPONENTS
+                  name: tekton-config-defaults
+            - name: DEFAULT_TARGET_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  key: DEFAULT_TARGET_NAMESPACE
+                  name: tekton-config-defaults
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: tekton-config-observability
+            - name: CONFIG_LEADERELECTION_NAME
+              value: tekton-operator-controller-config-leader-election
+            - name: IMAGE_HUB_TEKTON_HUB_DB
+              value: registry.redhat.io/rhel9/postgresql-15@sha256:90ec347a35ab8a5d530c8d09f5347b13cc71df04f3b994bfa8b1a409b1171d59
+            - name: IMAGE_ADDONS_PARAM_BUILDER_IMAGE
+              value: registry.redhat.io/rhel9/buildah@sha256:0e29338c43fbf9847f2060d7685b872594e3b39bfcf56278f470279089e48048
+            - name: IMAGE_ADDONS_PARAM_KN_IMAGE
+              value: registry.redhat.io/openshift-serverless-1/kn-client-kn-rhel9@sha256:e213fd263772c5286aa560132cd8c043cf2946f04f96eedf18cd240859bd8a48
+            - name: IMAGE_ADDONS_MVN_SETTINGS
+              value: registry.redhat.io/ubi9/ubi-minimal@sha256:61d5ad475048c2e655cd46d0a55dfeaec182cc3faa6348cb85989a7c9e196483
+            - name: IMAGE_ADDONS_SKOPEO_COPY
+              value: registry.redhat.io/rhel9/skopeo@sha256:3c1d54513adc2998955731da23ec354a15942fa7dd2e37dc818f85a947f400d4
+            - name: IMAGE_ADDONS_GENERATE
+              value: registry.redhat.io/source-to-image/source-to-image-rhel9@sha256:bc10e7d6122ede5cf4f2882c200447683255465a1080e826761e90bfb983506e
+            - name: IMAGE_ADDONS_GEN_ENV_FILE
+              value: registry.redhat.io/source-to-image/source-to-image-rhel9@sha256:bc10e7d6122ede5cf4f2882c200447683255465a1080e826761e90bfb983506e
+            - name: IMAGE_ADDONS_PARAM_MAVEN_IMAGE
+              value: registry.redhat.io/ubi9/openjdk-17@sha256:d334d3c36867a1eef7daa598af10b5f620394ca0234b12e71b8b7e99bda9224e
+            - name: IMAGE_ADDONS_OC
+              value: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+          image: ghcr.io/vdemeester/tektoncd/operator/operator@sha256:c24d44be2f1b35e928b8386ca908ff821a14489f6103445e9962d79df6006d1d
+          imagePullPolicy: Always
+          name: openshift-pipelines-operator-lifecycle
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+        - args:
+            - -controllers
+            - tektoninstallerset
+            - -unique-process-name
+            - tekton-operator-cluster-operations
+          env:
+            - name: KUBERNETES_MIN_VERSION
+              value: v1.0.0
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: redhat-openshift-pipelines-operator
+            - name: PROFILING_PORT
+              value: "9009"
+            - name: VERSION
+              value: devel
+            - name: METRICS_DOMAIN
+              value: tekton.dev/operator
+            - name: CONFIG_LEADERELECTION_NAME
+              value: tekton-operator-controller-config-leader-election
+          image: ghcr.io/vdemeester/tektoncd/operator/operator@sha256:c24d44be2f1b35e928b8386ca908ff821a14489f6103445e9962d79df6006d1d
+          imagePullPolicy: Always
+          name: openshift-pipelines-operator-cluster-operations
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: openshift-pipelines-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    operator.tekton.dev/release: devel
+    version: devel
+  name: tekton-operator-webhook
+  namespace: openshift-operators
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: tekton-operator-webhook
+  template:
+    metadata:
+      labels:
+        app: tekton-operator
+        name: tekton-operator-webhook
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_MIN_VERSION
+              value: v1.0.0
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: WEBHOOK_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: CONFIG_LEADERELECTION_NAME
+              value: tekton-operator-webhook-config-leader-election
+            - name: WEBHOOK_SERVICE_NAME
+              value: tekton-operator-webhook
+            - name: WEBHOOK_SECRET_NAME
+              value: tekton-operator-webhook-certs
+            - name: METRICS_DOMAIN
+              value: tekton.dev/operator
+            - name: PLATFORM
+              value: openshift
+          image: ghcr.io/vdemeester/tektoncd/operator/webhook@sha256:be760f39170e010aac66012293c9d32e8abfd9a634bb5d6b6b77ada2dfebc8e0
+          name: tekton-operator-webhook
+          ports:
+            - containerPort: 8443
+              name: https-webhook
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: openshift-pipelines-operator
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    networkoperator.openshift.io/ignore-errors: ""
+  labels:
+    name: openshift-pipelines-operator
+  name: openshift-pipelines-operator-monitor
+  namespace: openshift-operators
+spec:
+  endpoints:
+    - interval: 10s
+      port: http-metrics
+  jobLabel: name
+  selector:
+    matchLabels:
+      name: openshift-pipelines-operator
+
+---

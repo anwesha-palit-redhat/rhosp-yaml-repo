@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: 3-level-nesting-parent-pipeline
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+      default: Hello from Parent
+  tasks:
+    - name: run-child
+      pipelineRef:
+        name: 3-level-nesting-child-pipeline
+      params:
+        - name: message
+          value: $(params.message)

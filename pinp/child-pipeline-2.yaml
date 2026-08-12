@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: child-pipeline-2
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+
+  tasks:
+    - name: child-task
+      taskRef:
+        name: echo-task
+      params:
+        - name: message
+          value: $(params.message)

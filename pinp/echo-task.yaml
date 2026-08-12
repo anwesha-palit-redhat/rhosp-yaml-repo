@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: echo-task
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+  steps:
+    - name: echo
+      image: registry.k8s.io/busybox
+      script: |
+        #!/bin/sh
+        echo "$(params.message)"

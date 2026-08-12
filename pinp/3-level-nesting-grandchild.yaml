@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: 3-level-nesting-grandchild-pipeline
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+  tasks:
+    - name: echo
+      taskRef:
+        name: echo-task
+      params:
+        - name: message
+          value: $(params.message)

@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: parent-pipeline-with-2-child-pipeline
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+      default: Hello from Parent
+
+  tasks:
+    - name: parent-start
+      taskRef:
+        name: echo-task
+      params:
+        - name: message
+          value: "Starting parent pipeline"
+
+    - name: run-child-1
+      runAfter:
+        - parent-start
+      pipelineRef:
+        name: child-pipeline-1
+      params:
+        - name: message
+          value: "$(params.message) -> Child 1"
+
+    - name: run-child-2
+      runAfter:
+        - run-child-1
+      pipelineRef:
+        name: child-pipeline-2
+      params:
+        - name: message
+          value: "$(params.message) -> Child 2"
+
+    - name: parent-end
+      runAfter:
+        - run-child-2
+      taskRef:
+        name: echo-task
+      params:
+        - name: message
+          value: "Parent pipeline completed"

@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: child-task
+  namespace: apalit
+spec:
+  params:
+    - name: message
+      type: string
+  results:
+    - name: output
+      description: Echoed message
+  steps:
+    - name: echo
+      image: registry.k8s.io/busybox
+      script: |
+        #!/bin/sh
+        echo "Message: $(params.message)"
+        printf "$(params.message)" > $(results.output.path)
