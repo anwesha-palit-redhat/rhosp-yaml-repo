@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1beta1
+kind: CustomRun
+metadata:
+  name: my-custom-run
+  namespace: arvind
+spec:
+  customRef:
+    apiVersion: example.tekton.dev/v1
+    kind: MyCustomTask
+    name: my-custom-task

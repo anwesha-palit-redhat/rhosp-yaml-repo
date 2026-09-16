@@ -1,0 +1,130 @@
+---
+# Pipeline that will be created/executed by the PipelineRun
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: example-pipeline
+  namespace: arvind
+spec:
+  params:
+    - name: message
+      type: string
+    - name: repo
+      type: string
+    - name: revision
+      type: string
+
+  tasks:
+    - name: echo-message
+      taskSpec:
+        params:
+          - name: message
+            type: string
+          - name: repo
+            type: string
+          - name: revision
+            type: string
+        steps:
+          - name: echo
+            image: alpine:3.20
+            script: |
+              #!/bin/sh
+              echo "Message: $(params.message)"
+              echo "Repository: $(params.repo)"
+              echo "Revision: $(params.revision)"
+      params:
+        - name: message
+          value: $(params.message)
+        - name: repo
+          value: $(params.repo)
+        - name: revision
+          value: $(params.revision)
+
+---
+# TriggerBinding
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+  namespace: arvind
+spec:
+  params:
+    - name: message
+      value: $(body.message)
+
+    - name: repo
+      value: $(body.repository.url)
+
+    - name: revision
+      value: $(body.after)
+
+---
+# ClusterTriggerBinding
+apiVersion: triggers.tekton.dev/v1beta1
+kind: ClusterTriggerBinding
+metadata:
+  name: common-github-binding
+spec:
+  params:
+    - name: repository
+      value: $(body.repository.full_name)
+
+    - name: revision
+      value: $(body.after)
+
+    - name: sender
+      value: $(body.sender.login)
+
+---
+# TriggerTemplate
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+  namespace: arvind
+spec:
+  params:
+    - name: message
+      description: Message from webhook
+
+    - name: repo
+      description: Repository URL
+
+    - name: revision
+      description: Git revision
+
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: example-pipeline-run-
+      spec:
+        pipelineRef:
+          name: example-pipeline
+
+        params:
+          - name: message
+            value: $(tt.params.message)
+
+          - name: repo
+            value: $(tt.params.repo)
+
+          - name: revision
+            value: $(tt.params.revision)
+
+---
+# EventListener
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: pipeline-listener
+  namespace: arvind
+spec:
+  triggers:
+    - name: pipeline-trigger
+
+      bindings:
+        - ref: pipeline-binding
+
+      template:
+        ref: pipeline-template
